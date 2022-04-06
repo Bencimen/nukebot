@@ -11,7 +11,9 @@
   "dependencies": {
     "ascii": "^1.0.0",
     "ascii-table": "^0.0.9",
+    "discord-logs": "^2.0.1",
     "discord.js": "^12.5.3",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "ms": "^2.1.3"
   }
 }
