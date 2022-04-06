@@ -66,6 +66,70 @@ bot.on("ready", async () => {
     .messages.fetch("960918050180321371").then(msg => msg.react("✉️"))
 })
 
+bot.on("messageReactionAdd", async (reaction, user) => {
+    if (reaction.message.partial) await reaction.message.fetch();
+    if (reaction.partial) await reaction.fetch();
+    if (user.bot) return;
+    if (!reaction.message.guild) return;
+    if (reaction.message.id === "960918050180321371") {
+        reaction.users.remove(user);
+
+        reaction.message.guild.channels.create(`ticket-${user.username.substr(0, 10)}`, {
+            type: "text",
+            parent: "960605709676998698",
+            topic: `Ticket ${user.tag} felhasználótól! Ha be szeretnéd zárni a ticketet reagálj erre: 🔒`,
+            permissionOverwrites: [
+                { id: user.id, allow: ["SEND_MESSAGES", "VIEW_CHANNEL"], },
+                { id: reaction.message.guild.roles.everyone, deny: ["VIEW_CHANNEL"], },
+                { id: "950420117819367494", allow: ["SEND_MESSAGES", "VIEW_CHANNEL"], },
+            ]
+        }).then(ch => {
+            ch.send("Üdvözöllek! Mi a problémád? Ha be szeretnád zárni a ticketet reagálj ezzel: 🔒").then(msg => msg.react('🔒'))
+        })
+
+    }
+})
+bot.on("messageReactionAdd", async (reaction, user) => {
+    if (reaction.message.partial) await reaction.message.fetch();
+    if (reaction.partial) await reaction.fetch();
+    if (user.bot) return;
+    if (!reaction.message.guild) return;
+
+    if(reaction.emoji.name === "🔒") {
+        if(!reaction.message.channel.name.includes("ticket-")) return;
+        reaction.users.remove(user)
+
+        reaction.message.react("✅")
+        reaction.message.react("❌")
+    }
+})
+bot.on("messageReactionAdd", async (reaction, user) => {
+    if (reaction.message.partial) await reaction.message.fetch();
+    if (reaction.partial) await reaction.fetch();
+    if (user.bot) return;
+    if (!reaction.message.guild) return;
+
+    if(reaction.emoji.name === "✅") {
+        if(!reaction.message.channel.name.includes("ticket-")) return;
+
+        reaction.message.channel.delete()
+    }
+})
+bot.on("messageReactionAdd", async (reaction, user) => {
+    if (reaction.message.partial) await reaction.message.fetch();
+    if (reaction.partial) await reaction.fetch();
+    if (user.bot) return;
+    if (!reaction.message.guild) return;
+
+    if(reaction.emoji.name === "❌") {
+        if(!reaction.message.channel.name.includes("ticket-")) return;
+        reaction.users.remove(user)
+
+        reaction.message.reactions.cache.get("✅").remove()
+        reaction.message.reactions.cache.get("❌").remove()
+    }
+})
+
 
 
 
