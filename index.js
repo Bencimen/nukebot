@@ -1,10 +1,24 @@
 const Discord = require("discord.js");
+const bot = new Discord.Client({
+    intents: [
+        Discord.Intents.FLAGS.GUILDS,
+        Discord.Intents.FLAGS.GUILD_MESSAGES,
+        Discord.Intents.FLAGS.GUILD_VOICE_STATES,
+        Discord.Intents.FLAGS.GUILD_PRESENCES,
+        Discord.Intents.FLAGS.GUILD_MEMBERS
+    ]
+}, { disableEveryone: true }, { partials: ["MESSAGE", "CHANNEL", "REACTION"] });
+const logs = require('discord-logs');
+logs(bot);
 const config = require("./config.json");
-const bot = new Discord.Client({ disableEveryone: true }, { partials: ["MESSAGE", "CHANNEL", "REACTION"] });
 const fs = require("fs")
 const prefix = config.prefix
 const guildMemberAdd = require("./counters/guildMemberAdd");
 const guildMemberRemove = require("./counters/guildMemberRemove");
+const log = require("./counters/log");
+logs(bot, {
+    debug: true
+});
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -45,6 +59,11 @@ bot.on("ready", async () => {
 
     guildMemberAdd(bot)
     guildMemberRemove(bot)
+    log(bot)
+    
+    bot.guilds.cache.get(`950123115269226526`)
+    .channels.cache.get("960917425304531064")
+    .messages.fetch("960918050180321371").then(msg => msg.react("✉️"))
 })
 
 
