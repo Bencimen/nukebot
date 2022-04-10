@@ -61,9 +61,9 @@ bot.on("ready", async () => {
     guildMemberRemove(bot)
     log(bot)
     
-    bot.guilds.cache.get(`950123115269226526`)
+    /*bot.guilds.cache.get(`950123115269226526`)
     .channels.cache.get("960917425304531064")
-    .messages.fetch("960918050180321371").then(msg => msg.react("✉️"))
+    .messages.fetch("960918050180321371").then(msg => msg.react("✉️"))*/
 })
 
 bot.on("messageReactionAdd", async (reaction, user) => {
