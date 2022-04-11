@@ -184,6 +184,7 @@ module.exports = async(bot) => {
         bot.on("messageContentEdited", (message, oldContent, newContent) => {
 
             const LogChannel = bot.channels.cache.get('960568511946702858');
+            if(message.channel.id === "952651516102184971") return;
             const MessageEdited = new Discord.MessageEmbed()
                 .setTitle('Üzenet szerkesztve')
                 .setColor('RANDOM')
